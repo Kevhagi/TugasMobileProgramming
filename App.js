@@ -1,16 +1,39 @@
 import React from 'react'
 
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TextInput, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Pressable, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { Divider, RadioButton } from 'react-native-paper';
+import { RadioButton } from 'react-native-paper';
 
 export default function App() {
   const UBD = require('./img/ubd.png')
 
+  const [nama, setNama] = React.useState('')
+  const [kode, setKode] = React.useState('')
   const [checked, setChecked] = React.useState('Pria');
-  const [fakultas, setFakultas] = React.useState('FST')
-  const [prodi, setProdi] = React.useState('FST_SI')
+  const [fakultas, setFakultas] = React.useState('Fakultas Sains & Teknologi')
+  const [prodi, setProdi] = React.useState('Sistem Informasi')
+
+  function saveForm(){
+    Alert.alert(
+      'Data berhasil disimpan!',
+      `
+      Kode mahasiswa : ${kode}
+      Nama mahasiswa : ${nama}
+      Jenis kelamin : ${checked}
+      Fakultas : ${fakultas}
+      Program studi : ${prodi}
+      `,
+      [
+        { text: 'OK'}
+      ]
+    )
+  }
+
+  function clearAll(){
+    setKode('')
+    setNama('')
+  }
 
   return (
     <View style={styles.container}>
@@ -31,12 +54,20 @@ export default function App() {
 
       <View style={styles.formsContainer}>
         <Text style={styles.formsLabel}>Kode Mahasiswa</Text>
-        <TextInput style={styles.formsInput} />
+        <TextInput 
+          style={styles.formsInput}
+          value={kode}
+          onChangeText={(value) => setKode(value)}
+        />
       </View>
 
       <View style={styles.formsContainer}>
         <Text style={styles.formsLabel}>Nama Mahasiswa</Text>
-        <TextInput style={styles.formsInput} />
+        <TextInput 
+          style={styles.formsInput}
+          value={nama}
+          onChangeText={(value) => setNama(value)}
+        />
       </View>
 
       <View style={styles.formsContainer}>
@@ -70,45 +101,45 @@ export default function App() {
           selectedValue={fakultas}
           onValueChange={(itemValue, itemIndex) => setFakultas(itemValue)}
         >
-          <Picker.Item label="Fakultas Sains & Teknologi" value='FST' />
-          <Picker.Item label="Fakultas Sosial & Humaniora" value='FSH' />
-          <Picker.Item label="Fakultas Ekonomi & Bisnis" value='FEB' />
+          <Picker.Item label="Fakultas Sains & Teknologi" value='Fakultas Sains & Teknologi' />
+          <Picker.Item label="Fakultas Sosial & Humaniora" value='Fakultas Sosial & Humaniora' />
+          <Picker.Item label="Fakultas Ekonomi & Bisnis" value='Fakultas Ekonomi & Bisnis' />
         </Picker>
       </View>
 
       <View style={styles.formsContainer}>
         <Text style={styles.formsLabel}>Program Studi</Text>
-        {fakultas === 'FST' ?
+        {fakultas === 'Fakultas Sains & Teknologi' ?
           <Picker
             style={styles.picker}
             selectedValue={prodi}
             onValueChange={(itemValue, itemIndex) => setProdi(itemValue)}
           >
-            <Picker.Item label="Sistem Informasi" value='FST_SI' />
-            <Picker.Item label="Teknik Informatika" value='FST_TI' />
-            <Picker.Item label="Teknik Industri" value='FST_TIn' />
+            <Picker.Item label="Sistem Informasi" value='Sistem Informasi' />
+            <Picker.Item label="Teknik Informatika" value='Teknik Informatika' />
+            <Picker.Item label="Teknik Industri" value='Teknik Industri' />
           </Picker>
         : 
         <>
-          {fakultas === 'FSH' ?
+          {fakultas === 'Fakultas Sosial & Humaniora' ?
           <Picker
             style={styles.picker}
             selectedValue={prodi}
             onValueChange={(itemValue, itemIndex) => setProdi(itemValue)}
           > 
-            <Picker.Item label="Sastra Inggris" value='FSH_SI' />
-            <Picker.Item label="Ilmu Komunikasi" value='FSH_IK' />
+            <Picker.Item label="Sastra Inggris" value='Sastra Inggris' />
+            <Picker.Item label="Ilmu Komunikasi" value='Ilmu Komunikasi' />
           </Picker>
           :
           <>
-            {fakultas === 'FEB' ?
+            {fakultas === 'Fakultas Ekonomi & Bisnis' ?
             <Picker
               style={styles.picker}
               selectedValue={prodi}
               onValueChange={(itemValue, itemIndex) => setProdi(itemValue)}
             > 
-              <Picker.Item label="Akuntansi" value='FEB_A' />
-              <Picker.Item label="Manajemen" value='FEB_M' />
+              <Picker.Item label="Akuntansi" value='Akuntansi' />
+              <Picker.Item label="Manajemen" value='Manajemen' />
             </Picker>
             :
             <></>
@@ -120,10 +151,10 @@ export default function App() {
       </View>
 
       <View style={styles.buttonContainer}>
-        <Pressable style={styles.button}>
+        <Pressable style={styles.button} onPress={() => saveForm()}>
           <Text style={styles.buttonText}>Save</Text>
         </Pressable>
-        <Pressable style={styles.button}>
+        <Pressable style={styles.button} onPress={() => clearAll()}>
           <Text style={styles.buttonText}>Clear</Text>
         </Pressable>
       </View>
