@@ -3,7 +3,7 @@ import React from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TextInput, Pressable } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { RadioButton } from 'react-native-paper';
+import { Divider, RadioButton } from 'react-native-paper';
 
 export default function App() {
   const UBD = require('./img/ubd.png')
@@ -78,40 +78,45 @@ export default function App() {
 
       <View style={styles.formsContainer}>
         <Text style={styles.formsLabel}>Program Studi</Text>
-        <Picker
-          style={styles.picker}
-          selectedValue={prodi}
-          onValueChange={(itemValue, itemIndex) => setProdi(itemValue)}
-        >
-          {fakultas === 'FST' ?
-          <>
+        {fakultas === 'FST' ?
+          <Picker
+            style={styles.picker}
+            selectedValue={prodi}
+            onValueChange={(itemValue, itemIndex) => setProdi(itemValue)}
+          >
             <Picker.Item label="Sistem Informasi" value='FST_SI' />
             <Picker.Item label="Teknik Informatika" value='FST_TI' />
             <Picker.Item label="Teknik Industri" value='FST_TIn' />
-          </>
-          : 
+          </Picker>
+        : 
+        <>
+          {fakultas === 'FSH' ?
+          <Picker
+            style={styles.picker}
+            selectedValue={prodi}
+            onValueChange={(itemValue, itemIndex) => setProdi(itemValue)}
+          > 
+            <Picker.Item label="Sastra Inggris" value='FSH_SI' />
+            <Picker.Item label="Ilmu Komunikasi" value='FSH_IK' />
+          </Picker>
+          :
           <>
-            {fakultas === 'FSH' ?
-              <>
-                <Picker.Item label="Sastra Inggris" value='FSH_SI' />
-                <Picker.Item label="Ilmu Komunikasi" value='FSH_IK' />
-              </>
+            {fakultas === 'FEB' ?
+            <Picker
+              style={styles.picker}
+              selectedValue={prodi}
+              onValueChange={(itemValue, itemIndex) => setProdi(itemValue)}
+            > 
+              <Picker.Item label="Akuntansi" value='FEB_A' />
+              <Picker.Item label="Manajemen" value='FEB_M' />
+            </Picker>
             :
-              <>
-                {fakultas === 'FEB' ? 
-                <>
-                  <Picker.Item label="Akuntansi" value='FEB_A' />
-                  <Picker.Item label="Manajemen" value='FEB_M' />
-                </>
-                :
-                <>
-                </>
-                }
-              </>
+            <></>
             }
           </>
           }
-        </Picker>
+        </>
+        }
       </View>
 
       <View style={styles.buttonContainer}>
